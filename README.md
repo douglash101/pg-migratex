@@ -1,4 +1,4 @@
-# migratex
+# pg-migratex
 
 A minimal, dependency-free SQL migration runner for PostgreSQL.
 
@@ -21,7 +21,7 @@ Inspired by Flyway's versioned migration conventions — no external dependencie
 ### When the library is published to GitHub
 
 ```bash
-go get github.com/anypost/migratex
+go get github.com/douglash101/pg-migratex
 ```
 
 ### When using locally (monorepo / local path)
@@ -29,13 +29,13 @@ go get github.com/anypost/migratex
 1. Add a `replace` directive to your `go.mod`:
 
 ```
-replace github.com/anypost/migratex => ../migratex
+replace github.com/douglash101/pg-migratex => ../pg-migratex
 ```
 
 2. Add the `require` entry:
 
 ```
-require github.com/anypost/migratex v0.0.0
+require github.com/douglash101/pg-migratex v0.0.0
 ```
 
 3. Run:
@@ -91,15 +91,15 @@ import (
     "database/sql"
     "embed"
 
-    "github.com/anypost/migratex"
+    "github.com/douglash101/pg-migratex"
 )
 
 //go:embed migrations/*.sql
 var migrationsFS embed.FS
 
 func runMigrations(db *sql.DB) error {
-    m := migratex.New(db, migrationsFS,
-        migratex.WithDir("migrations"),
+    m := pg-migratex.New(db, migrationsFS,
+        pg-migratex.WithDir("migrations"),
     )
     return m.Migrate()
 }
@@ -129,12 +129,12 @@ func main() {
 
 ### Using a custom logger
 
-`migratex` accepts a stdlib `*slog.Logger`. If your project wraps `slog`, expose the underlying logger:
+`pg-migratex` accepts a stdlib `*slog.Logger`. If your project wraps `slog`, expose the underlying logger:
 
 ```go
-m := migratex.New(db, migrationsFS,
-    migratex.WithDir("migrations"),
-    migratex.WithLogger(myLogger.Slog()),
+m := pg-migratex.New(db, migrationsFS,
+    pg-migratex.WithDir("migrations"),
+    pg-migratex.WithLogger(myLogger.Slog()),
 )
 ```
 
@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
 myservice/
   cmd/
     migrate/
-      main.go          ← calls migratex.New().Migrate()
+      main.go          ← calls pg-migratex.New().Migrate()
   internal/
     postgres/
       migrator.go      ← thin wrapper (embed lives here)
@@ -195,16 +195,16 @@ import (
     "embed"
     "log/slog"
 
-    "github.com/anypost/migratex"
+    "github.com/douglash101/pg-migratex"
 )
 
 //go:embed migrations/*.sql
 var migrationsFS embed.FS
 
 func Migrate(db *sql.DB, log *slog.Logger) error {
-    m := migratex.New(db, migrationsFS,
-        migratex.WithDir("migrations"),
-        migratex.WithLogger(log),
+    m := pg-migratex.New(db, migrationsFS,
+        pg-migratex.WithDir("migrations"),
+        pg-migratex.WithLogger(log),
     )
     return m.Migrate()
 }

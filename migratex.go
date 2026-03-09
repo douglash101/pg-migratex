@@ -10,9 +10,9 @@
 //	//go:embed migrations/*.sql
 //	var migrationsFS embed.FS
 //
-//	m := migratex.New(db, migrationsFS, migratex.WithDir("migrations"))
+//	m := pgmigratex.New(db, migrationsFS, pgmigratex.WithDir("migrations"))
 //	if err := m.Migrate(); err != nil { ... }
-package migratex
+package pgmigratex
 
 import (
 	"database/sql"

@@ -1,4 +1,4 @@
-package migratex
+package pgmigratex
 
 import "log/slog"
 
